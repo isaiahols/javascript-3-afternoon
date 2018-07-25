@@ -31,7 +31,19 @@
 
 //Code Here
 
+class Employee {
+  constructor(first_name, last_name, email, age){
+    this.first_name=first_name,
+    this.last_name=last_name,
+    this.email=email,
+    this.age=age
+  }
+  makeWidget(){
+    return `${this.first_name} ${this.last_name} Widget`
+  }
+}
 
+// Employee('ab', 'old','thanks@email.com', 54)
 
 ////////// PROBLEM 2 //////////
 
@@ -51,6 +63,22 @@
 
 //Code Here
 
+class Manager extends Employee {
+  constructor(first_name, last_name, email, age){
+    super(first_name, last_name, email, age);
+    this.reports=[];
+  }
+  hire (newEmployee){
+    this.reports.push(newEmployee);
+  }
+  fire (index){
+    this.reports.splice(index,1);
+  }
+}
+
+var testing = new Manager("jake",'person','email@email.io',34);
+
+// console.log(testing.hire("john"));
 
 
 ////////// PROBLEM 3 //////////
@@ -77,7 +105,37 @@
 
 //Code Here
 
+class ProgressiveManager extends Manager {
+  constructor(first_name, last_name, email, age){
+    super(first_name, last_name, email, age);
+    this.title='Not a manager';
+    this.bonus=0;
+  }
 
+  hire(newEmployee) {
+    this.reports.push(newEmployee);
+    let countMe = this.reports.length;
+      if(countMe===0){
+        this.title = 'Not a manager';
+      } else if(countMe<=3){
+        this.title = 'Barely Manager';
+      } else if(countMe<=10){
+        this.title = 'Mostly Manager';
+      } else if(countMe<=50){
+        this.title = 'Manager';
+      } else if(countMe<=100){
+        this.title = 'Manager Plus';
+      } else {
+        this.title = 'Bestest Manager';
+      }
+      // console.log(this.title);
+      
+  }
+  fire(index) {
+    this.reports.splice(index, 1);
+    this.bonus+=100;
+  }
+}
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -104,4 +162,29 @@
 
 //Code Here
 
+class Machine {
+  constructor(){
+    this.widgets_made_count = 0;
+    this.wear_and_tear_count = 0;
+    this.needs_reboot = false;
+  }
+  makeWidgets(num){
+    this.widgets_made_count+=num;
+    // console.log('we made it here');
+    this.wear_and_tear_count+=Math.floor(num/50);
+    // if(this.widgets_made_count%50===0){
+    //   this.wear_and_tear_count++;
+    // }
+  }
 
+  fixMachine(){
+    this.needs_reboot = true;
+  }
+
+  reboot(){
+    return ()=>{
+      this.wear_and_tear_count-=10;
+      this.needs_reboot = false;
+    };
+  }
+}
